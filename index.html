@@ -2,32 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pay ₹99</title>
+  <title>Payment Page</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-    #telegram { display: none; margin-top: 20px; }
-    a.btn { background:#0088cc; color:#fff; padding:12px 20px; text-decoration:none; border-radius:5px; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #151932;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      width: 320px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .success-box {
+      background: #e6ffee;
+      border: 1px solid #00cc66;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      color: #006633;
+      font-size: 14px;
+    }
+    img.qr {
+      margin: 15px 0;
+      width: 200px;
+    }
+    .order {
+      font-size: 14px;
+      text-align: left;
+      margin: 10px 0;
+    }
+    .amount {
+      font-size: 16px;
+      font-weight: bold;
+      color: #000;
+    }
+    .timer {
+      color: red;
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .telegram {
+      background: #e8f6ff;
+      border: 1px solid #1d9bf0;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 15px 0;
+      font-size: 14px;
+    }
+    .telegram img {
+      width: 25px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .telegram a {
+      color: #d63384;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .apps {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #555;
+    }
+    .apps img {
+      height: 25px;
+      margin: 5px;
+    }
   </style>
 </head>
 <body>
-  <h2>Pay ₹99</h2>
-  <p>Scan this QR code to pay securely</p>
-
-  <!-- Cashfree QR Image (replace with your real QR) -->
-  <img src="cashfree_qr.png" alt="Pay via QR" width="250"/>
-
-  <!-- Telegram Link (hidden by default) -->
-  <div id="telegram">
-    <h3>✅ Payment Successful</h3>
-    <a href="https://t.me/YourTelegramLink" target="_blank" class="btn">Join Telegram</a>
+  <div class="card">
+    <div class="success-box">
+      Please do not close this page after payment. Wait until your payment is <b>confirmed</b>.
+    </div>
+    <h3>Scan to Pay</h3>
+    <img src="QRcode_cfpe.me_realmeetx.png" alt="Pay via QR" class="qr">
+    <div class="order">
+      <p><b>Order ID:</b> 609489692</p>
+      <p><b>Amount:</b> ₹ 99.00</p>
+    </div>
+    <div class="timer" id="timer">5:00</div>
+    <div class="telegram">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
+      After payment, a Telegram Join button will appear — click it to enter my 
+      <a href="https://t.me/YourTelegramLink" target="_blank">Private Group</a>
+    </div>
+    <div class="apps">
+      <p>Scan & Pay with any UPI Payment App</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Pay_logo.png" alt="GPay">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Paytm_logo.png" alt="Paytm">
+      <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/UPI-Logo-vector.svg" alt="UPI">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+    </div>
   </div>
 
   <script>
-    // Show Telegram link only if payment success flag present
-    const params = new URLSearchParams(window.location.search);
-    if(params.get("status") === "success"){
-      document.getElementById("telegram").style.display = "block";
+    // 5 minute countdown
+    let time = 300; 
+    let timerEl = document.getElementById("timer");
+    function updateTimer() {
+      let min = Math.floor(time / 60);
+      let sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+      if (time > 0) {
+        time--;
+      }
     }
+    setInterval(updateTimer, 1000);
   </script>
 </body>
 </html>
