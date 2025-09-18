@@ -2,135 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Payment Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pay ₹99</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background: #151932;
+      background-color: #0d0b33;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
+      margin: 0;
     }
     .card {
       background: #fff;
+      padding: 20px;
       border-radius: 15px;
-      padding: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       text-align: center;
       width: 320px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .success-box {
-      background: #e6ffee;
-      border: 1px solid #00cc66;
+    .success-msg {
+      background: #e6ffe6;
       padding: 10px;
-      border-radius: 10px;
+      border: 1px solid #00a000;
+      border-radius: 8px;
       margin-bottom: 15px;
-      color: #006633;
+      color: #006600;
       font-size: 14px;
     }
-    img.qr {
-      margin: 15px 0;
-      width: 200px;
+    img {
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 2px solid #ddd;
     }
-    .order {
-      font-size: 14px;
+    .order-info {
       text-align: left;
       margin: 10px 0;
+      font-size: 14px;
     }
-    .amount {
-      font-size: 16px;
-      font-weight: bold;
-      color: #000;
-    }
-    .timer {
-      color: red;
-      font-size: 20px;
-      margin: 10px 0;
-    }
-    .telegram {
-      background: #e8f6ff;
-      border: 1px solid #1d9bf0;
+    .telegram-box {
+      background: #f0f8ff;
+      border: 1px solid #0077b5;
       border-radius: 10px;
       padding: 10px;
       margin: 15px 0;
-      font-size: 14px;
-    }
-    .telegram img {
-      width: 25px;
-      vertical-align: middle;
-      margin-right: 5px;
-    }
-    .apps {
-      margin-top: 15px;
-      font-size: 13px;
-      color: #555;
-    }
-    .apps img {
-      height: 25px;
-      margin: 5px;
-    }
-    .join-btn {
       display: none;
-      background: #1d9bf0;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
+    }
+    .telegram-box a {
       text-decoration: none;
       font-weight: bold;
-      margin-top: 10px;
-      display: inline-block;
+      color: #0077b5;
+    }
+    .footer-icons {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #666;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="success-box">
-      Please do not close this page after payment. Wait until your payment is <b>confirmed</b>.
+    <div class="success-msg">
+      Please do not close this page after successful payment... Wait until your payment is confirmed.
     </div>
     <h3>Scan to Pay</h3>
-    <img src="QRcode_cfpe.me_realmeetx.png" alt="Pay via QR" class="qr">
-    <div class="order">
+    <!-- Apna QR code image yaha load hoga -->
+    <img src="QRcode_cfpe.me_realmeetx.png" alt="QR Code" width="200">
+    
+    <div class="order-info">
       <p><b>Order ID:</b> 609489692</p>
-      <p><b>Amount:</b> ₹ 99.00</p>
+      <p><b>Amount:</b> ₹99.00</p>
     </div>
-    <div class="timer" id="timer">5:00</div>
-    <div class="telegram">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
-      After payment, Telegram Join button will unlock here 👇
-      <br>
-      <a href="https://t.me/YourTelegramLink" id="joinBtn" class="join-btn" target="_blank">Join Telegram Group</a>
+    <p id="timer" style="color:red; font-weight:bold;">5:00</p>
+
+    <div id="telegramBox" class="telegram-box">
+      <p>After payment, click below to join our <b>Private Group</b></p>
+      <a href="https://t.me/yourtelegramlink" target="_blank">Join Telegram</a>
     </div>
-    <div class="apps">
-      <p>Scan & Pay with any UPI Payment App</p>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Pay_logo.png" alt="GPay">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Paytm_logo.png" alt="Paytm">
-      <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/UPI-Logo-vector.svg" alt="UPI">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+
+    <div class="footer-icons">
+      Scan & Pay with any UPI App: GPay | Paytm | PhonePe | UPI | Visa | MasterCard
     </div>
   </div>
 
   <script>
-    // 5 minute countdown
-    let time = 300; 
-    let timerEl = document.getElementById("timer");
-    let joinBtn = document.getElementById("joinBtn");
+    // Timer countdown
+    let time = 300; // 5 minutes
+    const timerEl = document.getElementById("timer");
+    setInterval(() => {
+      let minutes = Math.floor(time / 60);
+      let seconds = time % 60;
+      timerEl.innerText = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      if (time > 0) time--;
+    }, 1000);
 
-    function updateTimer() {
-      let min = Math.floor(time / 60);
-      let sec = time % 60;
-      timerEl.textContent = `${min}:${sec < 10 ? '0' : ''}${sec}`;
-      if (time > 0) {
-        time--;
-      } else {
-        // unlock Telegram button after 5 min
-        joinBtn.style.display = "inline-block";
-      }
+    // Show Telegram link if URL contains ?status=success
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("status") === "success") {
+      document.getElementById("telegramBox").style.display = "block";
     }
-    setInterval(updateTimer, 1000);
   </script>
 </body>
 </html>
+
