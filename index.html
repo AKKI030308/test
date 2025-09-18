@@ -3,105 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pay ₹99</title>
+  <title>Cashfree Dynamic Payment</title>
+  <script src="https://sdk.cashfree.com/js/ui/1.0.0/cf-ui.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #0d0b33;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      text-align: center;
-      width: 320px;
-    }
-    .success-msg {
-      background: #e6ffe6;
-      padding: 10px;
-      border: 1px solid #00a000;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      color: #006600;
-      font-size: 14px;
-    }
-    img {
-      margin: 10px 0;
-      border-radius: 10px;
-      border: 2px solid #ddd;
-    }
-    .order-info {
-      text-align: left;
-      margin: 10px 0;
-      font-size: 14px;
-    }
-    .telegram-box {
-      background: #f0f8ff;
-      border: 1px solid #0077b5;
-      border-radius: 10px;
-      padding: 10px;
-      margin: 15px 0;
-      display: none;
-    }
-    .telegram-box a {
-      text-decoration: none;
-      font-weight: bold;
-      color: #0077b5;
-    }
-    .footer-icons {
-      margin-top: 15px;
-      font-size: 13px;
-      color: #666;
-    }
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f9f9f9; }
+    .payment-container { max-width: 400px; margin: auto; background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .payment-container img { width: 150px; margin-bottom: 20px; }
+    input { width: 80%; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; }
+    button { background-color: #4CAF50; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+    button:hover { background-color: #45a049; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="success-msg">
-      Please do not close this page after successful payment... Wait until your payment is confirmed.
-    </div>
-    <h3>Scan to Pay</h3>
-    <!-<img src="/QRcode_cfpe.me_realmeetx.png" alt="QR Code" width="200">
-   <img src="QRcode_cfpe.me_realmeetx.png" alt="QR Code" width="200">
-    <div class="order-info">
-      <p><b>Order ID:</b> 609489692</p>
-      <p><b>Amount:</b> ₹99.00</p>
-    </div>
-    <p id="timer" style="color:red; font-weight:bold;">5:00</p>
 
-    <div id="telegramBox" class="telegram-box">
-      <p>After payment, click below to join our <b>Private Group</b></p>
-      <a href="https://t.me/yourtelegramlink" target="_blank">Join Telegram</a>
-    </div>
-
-    <div class="footer-icons">
-      Scan & Pay with any UPI App: GPay | Paytm | PhonePe | UPI | Visa | MasterCard
-    </div>
+  <div class="payment-container">
+    <h2>Pay with Cashfree</h2>
+    <!-- Your QR Code -->
+    <img src="YOUR_QR_CODE_URL_HERE" alt="Scan QR Code">
+    <p>Enter Amount:</p>
+    <input type="number" id="amountInput" placeholder="Enter amount in ₹" min="1">
+    <br>
+    <button id="payButton">Pay Now</button>
   </div>
 
   <script>
-    // Timer countdown
-    let time = 300; // 5 minutes
-    const timerEl = document.getElementById("timer");
-    setInterval(() => {
-      let minutes = Math.floor(time / 60);
-      let seconds = time % 60;
-      timerEl.innerText = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-      if (time > 0) time--;
-    }, 1000);
-
-    // Show Telegram link if URL contains ?status=success
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("status") === "success") {
-      document.getElementById("telegramBox").style.display = "block";
+    function generateOrderId() {
+      return 'ORDER_' + Date.now() + Math.floor(Math.random() * 1000);
     }
+
+    document.getElementById("payButton").addEventListener("click", function() {
+      const amount = document.getElementById("amountInput").value;
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid amount!");
+        return;
+      }
+
+      const paymentObject = {
+        orderId: generateOrderId(), // Unique order ID
+        orderAmount: amount, // User-entered amount
+        notifyUrl: "https://t.me/YOUR_TELEGRAM_LINK" // Redirect after payment
+      };
+
+      Cashfree.init(paymentObject);
+    });
   </script>
+
 </body>
 </html>
-
