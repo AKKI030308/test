@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pay ₹99</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    #telegram { display: none; margin-top: 20px; }
+    a.btn { background:#0088cc; color:#fff; padding:12px 20px; text-decoration:none; border-radius:5px; }
+  </style>
+</head>
+<body>
+  <h2>Pay ₹99</h2>
+  <p>Scan this QR code to pay securely</p>
+
+  <!-- Cashfree QR Image (replace with your real QR) -->
+  <img src="cashfree_qr.png" alt="Pay via QR" width="250"/>
+
+  <!-- Telegram Link (hidden by default) -->
+  <div id="telegram">
+    <h3>✅ Payment Successful</h3>
+    <a href="https://t.me/YourTelegramLink" target="_blank" class="btn">Join Telegram</a>
+  </div>
+
+  <script>
+    // Show Telegram link only if payment success flag present
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("status") === "success"){
+      document.getElementById("telegram").style.display = "block";
+    }
+  </script>
+</body>
+</html>
