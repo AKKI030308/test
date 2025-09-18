@@ -62,11 +62,6 @@
       vertical-align: middle;
       margin-right: 5px;
     }
-    .telegram a {
-      color: #d63384;
-      font-weight: bold;
-      text-decoration: none;
-    }
     .apps {
       margin-top: 15px;
       font-size: 13px;
@@ -75,6 +70,17 @@
     .apps img {
       height: 25px;
       margin: 5px;
+    }
+    .join-btn {
+      display: none;
+      background: #1d9bf0;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 10px;
+      display: inline-block;
     }
   </style>
 </head>
@@ -92,8 +98,9 @@
     <div class="timer" id="timer">5:00</div>
     <div class="telegram">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
-      After payment, a Telegram Join button will appear — click it to enter my 
-      <a href="https://t.me/YourTelegramLink" target="_blank">Private Group</a>
+      After payment, Telegram Join button will unlock here 👇
+      <br>
+      <a href="https://t.me/YourTelegramLink" id="joinBtn" class="join-btn" target="_blank">Join Telegram Group</a>
     </div>
     <div class="apps">
       <p>Scan & Pay with any UPI Payment App</p>
@@ -110,12 +117,17 @@
     // 5 minute countdown
     let time = 300; 
     let timerEl = document.getElementById("timer");
+    let joinBtn = document.getElementById("joinBtn");
+
     function updateTimer() {
       let min = Math.floor(time / 60);
       let sec = time % 60;
       timerEl.textContent = `${min}:${sec < 10 ? '0' : ''}${sec}`;
       if (time > 0) {
         time--;
+      } else {
+        // unlock Telegram button after 5 min
+        joinBtn.style.display = "inline-block";
       }
     }
     setInterval(updateTimer, 1000);
